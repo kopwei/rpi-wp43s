@@ -34,8 +34,8 @@
 #include "DEV_Config.h"
 
 // Display resolution
-#define EPD_3IN7_WIDTH       280
-#define EPD_3IN7_HEIGHT      480 
+const uint EPD_3IN7_WIDTH = 280;
+const uint EPD_3IN7_HEIGHT = 480; 
 
 void EPD_3IN7_4Gray_Clear(void);
 void EPD_3IN7_4Gray_Init(void);
