@@ -17,9 +17,9 @@ void  Handler(int signo)
 }
 
 
-int main(void)
+int main(int argc, char *argv[])
 {
     signal(SIGINT, Handler);
-    test_feature();
+    test_feature(argc, argv);
     return 0;
 }
