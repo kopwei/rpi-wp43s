@@ -91,14 +91,6 @@ typedef struct {
 extern PAINT Paint;
 
 /**
- * Display rotate
-**/
-#define ROTATE_0            0
-#define ROTATE_90           90
-#define ROTATE_180          180
-#define ROTATE_270          270
-
-/**
  * Display Flip
 **/
 typedef enum {

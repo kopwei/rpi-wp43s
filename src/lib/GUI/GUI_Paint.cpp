@@ -83,6 +83,14 @@
 #include <string.h> //memset()
 #include <math.h>
 
+/**
+ * Display rotate
+**/
+#define ROTATE_0            0
+#define ROTATE_90           90
+#define ROTATE_180          180
+#define ROTATE_270          270
+
 PAINT Paint;
 
 /******************************************************************************

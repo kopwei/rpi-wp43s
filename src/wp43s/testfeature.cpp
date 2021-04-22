@@ -5,7 +5,7 @@
 //#include <QDesktopWidget>
 //#include <QApplication>
 //#include <QPixmap>
-//#include "screencapturor.h"
+#include "screencapturor.h"
 
 using namespace std;
 
@@ -29,7 +29,8 @@ void test_feature(int argc, char *argv[]){
     QApplication MyScreenshot(argc,argv);
     shootScreen("test.png");*/
     //CScreenCapturer(880, 480, 800 , 480);
-    
+    CScreenCapturer capturor(0, 0,800, 480);
+    cv::Mat img;
 
 
 	return;
