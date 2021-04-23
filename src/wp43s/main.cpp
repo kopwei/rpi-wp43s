@@ -3,7 +3,6 @@
 #include "wp43s.h"
 #include "DEV_Config.h"
 #include <iostream>
-#include "testfeature.h"
 
 using namespace std;
 
@@ -20,6 +19,7 @@ void  Handler(int signo)
 int main(int argc, char *argv[])
 {
     signal(SIGINT, Handler);
-    test_feature(argc, argv);
+    CRPiCW43sCalculator calculator;
+    calculator.Start();
     return 0;
 }

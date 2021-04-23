@@ -11,6 +11,8 @@ class CScreenCapturer{
 public:
     CScreenCapturer(uint x, uint y, uint width, uint height);
 
+    void CaptureToImg(cv::Mat& cv_img);
+
     void operator() (cv::Mat& cv_img);
 
     ~CScreenCapturer();

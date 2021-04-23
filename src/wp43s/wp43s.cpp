@@ -1,8 +1,22 @@
 #include "wp43s.h"
-#include "DEV_Config.h"
-#include "GUI_Paint.h"
-#include "GUI_BMPfile.h"
-#include "image_data.h"
-#include "EPD_3in7.h"
+#include "display.h"
 
-void grab_screen(){}
+CRPiCW43sCalculator::CRPiCW43sCalculator()
+{
+    pDisplay = CEPaperDisplay::GetInstance();
+}
+
+CRPiCW43sCalculator::~CRPiCW43sCalculator()
+{
+    if(pDisplay)
+    {
+        delete pDisplay;
+    }
+    pDisplay = nullptr;
+}
+
+void CRPiCW43sCalculator::Start()
+{
+    pDisplay->InitDisplay();
+    pDisplay->GrabScreenAndShowFull();
+}

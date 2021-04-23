@@ -9,6 +9,7 @@
 
 using namespace std;
 
+
 CScreenCapturer::CScreenCapturer(uint x, uint y, uint width, uint height):
                x(x), y(y), width(width), height(height)
 {
@@ -26,7 +27,7 @@ CScreenCapturer::CScreenCapturer(uint x, uint y, uint width, uint height):
     if(shminfo.shmid < 0)
         cout<<"Fatal shminfo error!"<<endl;
     Status s1 = XShmAttach(display, &shminfo);
-        //printf("XShmAttach() %s\n", s1 ? "success!" : "failure!");
+    //printf("XShmAttach() %s\n", s1 ? "success!" : "failure!");
 
     init = true;
 }
@@ -41,6 +42,15 @@ CScreenCapturer::~CScreenCapturer(){
 }
 
 void CScreenCapturer::operator() (cv::Mat& cv_img){
+    if(init)
+        init = false;
+
+    XShmGetImage(display, root, ximg, 0, 0, 0x00ffffff);
+    cv_img = cv::Mat(height, width, CV_8UC4, ximg->data);
+}
+
+void CScreenCapturer::CaptureToImg(cv::Mat& cv_img)
+{
     if(init)
         init = false;
 
