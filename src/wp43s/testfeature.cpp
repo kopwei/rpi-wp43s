@@ -27,8 +27,8 @@ void test_feature(int argc, char *argv[]){
     if(DEV_Module_Init()!=0){
         return;
     }
-    EPD_3IN7_4Gray_Init();
-    EPD_3IN7_4Gray_Clear();
+    EPD_3IN7_1Gray_Init();
+    EPD_3IN7_1Gray_Clear();
     DEV_Delay_ms(500);
 
     CScreenCapturer capturor(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -38,10 +38,11 @@ void test_feature(int argc, char *argv[]){
     cv::resize(original_colorMat, scaled_colorMat, newSize, 0, 0);
     //cv::GaussianBlur(scaled_colorMat, scaled_colorMat, cv::Size(7,7), 1.5, 1.5);
     cv::cvtColor(scaled_colorMat, greyMat, cv::COLOR_RGBA2GRAY);
+    cv::rotate(greyMat, greyMat, cv::ROTATE_180);
     cv::imwrite(tmp_path, greyMat);
     BMP bitConvBmp;
     bitConvBmp.ReadFromFile(tmp_path.c_str());
-    bitConvBmp.SetBitDepth(4);
+    bitConvBmp.SetBitDepth(1);
     bitConvBmp.WriteToFile(tmp_path.c_str());
 
 
@@ -51,10 +52,12 @@ void test_feature(int argc, char *argv[]){
         printf("Failed to apply for black memory...\r\n");
         return;
     }
+    Paint_NewImage(canvas, EPD_3IN7_WIDTH, EPD_3IN7_HEIGHT, 270, WHITE);
+    Paint_SetScale(2);
     Paint_SelectImage(canvas);
     Paint_Clear(WHITE);
-    GUI_ReadBmp_4Gray(tmp_path.c_str(), 0, 0);
-    EPD_3IN7_4Gray_Display(canvas);
+    GUI_ReadBmp(tmp_path.c_str(), 0, 0);
+    EPD_3IN7_1Gray_Display(canvas);
     EPD_3IN7_Sleep();
     // cv::waitKey(0);
 
