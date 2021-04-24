@@ -1,5 +1,7 @@
 #include "wp43s.h"
 #include "display.h"
+#include "keyboard.h"
+#include <iostream>
 
 CRPiCW43sCalculator::CRPiCW43sCalculator()
 {
@@ -19,4 +21,7 @@ void CRPiCW43sCalculator::Start()
 {
     pDisplay->InitDisplay();
     pDisplay->GrabScreenAndShowFull();
+    CKeyboardHandler keyboard;
+    keyboard.RegisterObserver(pDisplay);
+    keyboard.StartMonitorEvent();
 }

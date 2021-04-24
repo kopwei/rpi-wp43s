@@ -2,10 +2,12 @@
 #define _WP43S_DISPLAY_H_
 
 #include "DEV_Config.h"
+#include "observer.h"
 
 class CScreenCapturer;
+class BMP;
 
-class CEPaperDisplay
+class CEPaperDisplay : public CKeyboardObserver
 {
 public:
     static CEPaperDisplay* GetInstance();
@@ -15,6 +17,7 @@ public:
     void GrabScreenAndShowFull();
     void GrabScreenAndShowDiff();
     void Sleep();
+    void HandleKeyboardEvent(const KeyboardEvent event);
 
 private:
     CEPaperDisplay();
@@ -26,6 +29,7 @@ private:
     void CaptureScreenInGray();
     void Convert8bitGreyTo1bit();
     UBYTE* canvas;
+    BMP* bitConvBmp;
 };
 
 #endif

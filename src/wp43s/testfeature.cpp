@@ -27,6 +27,8 @@ void test_feature(int argc, char *argv[]){
     if(DEV_Module_Init()!=0){
         return;
     }
+    EPD_3IN7_4Gray_Init();
+    EPD_3IN7_4Gray_Clear();
     EPD_3IN7_1Gray_Init();
     EPD_3IN7_1Gray_Clear();
     DEV_Delay_ms(500);

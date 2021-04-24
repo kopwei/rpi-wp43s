@@ -1,10 +1,10 @@
-#include "display.h"
 #include "screencapturor.h"
 #include "EPD_3in7.h"
 #include "GUI_Paint.h"
 #include "GUI_BMPfile.h"
 #include "EasyBMP.h"
 #include <string>
+#include "display.h"
 
 using namespace std;
 
@@ -32,6 +32,7 @@ CEPaperDisplay* CEPaperDisplay::GetInstance()
 CEPaperDisplay::CEPaperDisplay()
 {
     this->capturor = new CScreenCapturer(0, 0, LCD_SCREEN_WIDTH, LCD_SCREEN_HEIGHT);
+    this->bitConvBmp = new BMP();
     UWORD Imagesize = ((EPD_3IN7_WIDTH % 4 == 0)? (EPD_3IN7_WIDTH / 4 ): (EPD_3IN7_WIDTH / 4 + 1)) * EPD_3IN7_HEIGHT;
     if((canvas = (UBYTE *)malloc(Imagesize)) == NULL) {
         printf("Failed to apply for black memory...\r\n");
@@ -41,19 +42,29 @@ CEPaperDisplay::CEPaperDisplay()
 
 CEPaperDisplay::~CEPaperDisplay()
 {
-    if(this->capturor )
+    if(this->capturor)
     {
         delete this->capturor;
     }
     this->capturor = nullptr;
+    if(this->bitConvBmp)
+    {
+        delete this->bitConvBmp;
+    }
+    this->bitConvBmp = nullptr;
+    free(canvas);
+    EPD_3IN7_Sleep();
 }
 
 void CEPaperDisplay::InitDisplay()
 {
-    cout << "Testing ePaper Feature" << endl;
+    cout << "Initalizing Display" << endl;
     if(DEV_Module_Init()!=0){
         return;
     }
+    EPD_3IN7_4Gray_Init();
+    EPD_3IN7_4Gray_Clear();
+    DEV_Delay_ms(500);
     EPD_3IN7_1Gray_Init();
     EPD_3IN7_1Gray_Clear();
     DEV_Delay_ms(500);
@@ -61,6 +72,8 @@ void CEPaperDisplay::InitDisplay()
 
 void CEPaperDisplay::GrabScreenAndShowFull()
 {
+    CaptureScreenInGray();
+    Convert8bitGreyTo1bit();
     Paint_NewImage(canvas, EPD_3IN7_WIDTH, EPD_3IN7_HEIGHT, 270, WHITE);
     Paint_SetScale(2);
     Paint_SelectImage(canvas);
@@ -82,8 +95,15 @@ void CEPaperDisplay::CaptureScreenInGray()
 
 void CEPaperDisplay::Convert8bitGreyTo1bit()
 {
-    BMP bitConvBmp;
-    bitConvBmp.ReadFromFile(tmp_path.c_str());
-    bitConvBmp.SetBitDepth(1);
-    bitConvBmp.WriteToFile(tmp_path.c_str());
+    bitConvBmp->ReadFromFile(tmp_path.c_str());
+    bitConvBmp->SetBitDepth(1);
+    bitConvBmp->WriteToFile(tmp_path.c_str());
+}
+
+void CEPaperDisplay::HandleKeyboardEvent(const KeyboardEvent event)
+{
+    if(event == KeyReleaseEvent)
+    {
+        GrabScreenAndShowFull();
+    }
 }
