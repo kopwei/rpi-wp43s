@@ -73,9 +73,7 @@ typedef struct RGBApixel
     ebmpBYTE Green;
     ebmpBYTE Red;
     ebmpBYTE Alpha;
-}
-
-RGBApixel;
+} RGBApixel;
 
 class BMFH
 {

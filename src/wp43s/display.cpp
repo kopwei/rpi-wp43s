@@ -4,8 +4,10 @@
 #include "GUI_BMPfile.h"
 #include "EasyBMP.h"
 #include <string>
+#include <experimental/filesystem>  
 #include "display.h"
 #include "calculator_process.h"
+#include "pic_compare.h"
 
 using namespace std;
 
@@ -17,6 +19,7 @@ const uint EPAPER_SCREEN_HEIGHT = EPD_3IN7_WIDTH;
 
 const string tmp_path("/tmp/tmp_dump.bmp");
 const string old_dump_path("/tmp/old_tmp_dump.bmp");
+const string diff_pic_path("/tmp/diff_pic.bmp");
 
 
 CEPaperDisplay* CEPaperDisplay::epaper_display_ = nullptr;
@@ -86,8 +89,24 @@ void CEPaperDisplay::GrabScreenAndShowFull()
     EPD_3IN7_1Gray_Display(canvas);
 }
 
+void CEPaperDisplay::GrabScreenAndShowDiff()
+{
+    CaptureScreenInGray();
+    Convert8bitGreyTo1bit();
+    DiffArea diff_area = CBMPComparator::GetDiffArea(old_dump_path.c_str(), tmp_path.c_str());
+    if(diff_area.Exists())
+    {
+        CBMPComparator::SaveDiffAreaToFile(tmp_path, diff_area, diff_pic_path);
+        Paint_SelectImage(canvas);
+        Paint_Clear(WHITE);
+        GUI_ReadBmp(tmp_path.c_str(), diff_area.X_MIN, diff_area.Y_MIN);
+        EPD_3IN7_1Gray_Display_Part(canvas, diff_area.X_MIN, diff_area.Y_MIN, diff_area.X_MAX, diff_area.Y_MAX);
+    }
+}
+
 void CEPaperDisplay::CaptureScreenInGray()
 {
+    MoveExistingScreeshotIfExists();
     cv::Mat original_colorMat, scaled_colorMat, greyMat;
     capturor->CaptureToImg(original_colorMat);
     cv::Size newSize(EPAPER_SCREEN_WIDTH, EPAPER_SCREEN_HEIGHT);
@@ -95,6 +114,14 @@ void CEPaperDisplay::CaptureScreenInGray()
     cv::cvtColor(scaled_colorMat, greyMat, cv::COLOR_RGBA2GRAY);
     cv::rotate(greyMat, greyMat, cv::ROTATE_180);
     cv::imwrite(tmp_path, greyMat);
+}
+
+void CEPaperDisplay::MoveExistingScreeshotIfExists()
+{
+    if (experimental::filesystem::exists(tmp_path))
+    {
+        rename(tmp_path.c_str(), old_dump_path.c_str());
+    }
 }
 
 void CEPaperDisplay::Convert8bitGreyTo1bit()
@@ -113,6 +140,12 @@ void CEPaperDisplay::HandleKeyboardEvent(const KeyboardEvent event)
     if(KeyReleaseEvent == event)
     {
         GrabScreenAndShowFull();
+        //# Debug purpose
+        DiffArea diff_area = CBMPComparator::GetDiffArea(old_dump_path.c_str(), tmp_path.c_str());
+        if(diff_area.Exists())
+        {
+            CBMPComparator::SaveDiffAreaToFile(tmp_path, diff_area, diff_pic_path);
+        }
     }
 }
 

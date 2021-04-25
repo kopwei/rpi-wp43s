@@ -29,6 +29,7 @@ private:
 
     void CaptureScreenInGray();
     void Convert8bitGreyTo1bit();
+    void MoveExistingScreeshotIfExists();
     UBYTE* canvas;
     BMP* bitConvBmp;
 };
