@@ -51,7 +51,7 @@ const int CCaculatorProcess::StartProcess()
 
 const int CCaculatorProcess::FindProcessByName(const std::string procName)
 {
-    std::cout << "DEBUG: Looking for process " << procName << std::endl;
+    //std::cout << "DEBUG: Looking for process " << procName << std::endl;
     int pid = -1;
     // Open the /proc directory
     DIR *dp = opendir("/proc");
@@ -81,10 +81,10 @@ const int CCaculatorProcess::FindProcessByName(const std::string procName)
                     if (pos != std::string::npos)
                         cmdLine = cmdLine.substr(pos + 1);
                     // Compare against requested process name
-                    std::cout << "DEBUG: comparing "<< procName << " and "<< cmdLine << std::endl;
+                    //std::cout << "DEBUG: comparing "<< procName << " and "<< cmdLine << std::endl;
                     if (procName == cmdLine)
                     {
-                        std::cout << "DEBUG: Process Found !!!" << std::endl;
+                        //std::cout << "DEBUG: Process Found !!!" << std::endl;
                         pid = id;
                     }
                 }
@@ -93,6 +93,6 @@ const int CCaculatorProcess::FindProcessByName(const std::string procName)
     }
 
     closedir(dp);
-    std::cout << "DEBUG: The process id found is " << pid << std::endl;
+    //std::cout << "DEBUG: The process id found is " << pid << std::endl;
     return pid;
 }

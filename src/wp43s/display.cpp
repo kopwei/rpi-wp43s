@@ -116,6 +116,15 @@ void CEPaperDisplay::HandleKeyboardEvent(const KeyboardEvent event)
     }
 }
 
+void CEPaperDisplay::ShowSleepPicture()
+{
+    EPD_3IN7_4Gray_Init();
+    printf("Clear...\r\n");
+    EPD_3IN7_4Gray_Clear();
+    //GUI_ReadBmp_4Gray("../../picture/3in7_4gray2.bmp", 0, 0);
+    //EPD_3IN7_4Gray_Display(canvas);
+}
+
 void CEPaperDisplay::Sleep()
 {
     EPD_3IN7_Sleep();

@@ -16,6 +16,7 @@ public:
     void InitDisplay();
     void GrabScreenAndShowFull();
     void GrabScreenAndShowDiff();
+    void ShowSleepPicture();
     void Sleep();
     void HandleKeyboardEvent(const KeyboardEvent event);
 

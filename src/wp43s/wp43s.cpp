@@ -57,5 +57,6 @@ void CRPiCW43sCalculator::Start()
     }
     pthread_join(threads[0], NULL);
     pthread_join(threads[1], NULL);
+    pDisplay->ShowSleepPicture();
     pDisplay->Sleep();
 }
