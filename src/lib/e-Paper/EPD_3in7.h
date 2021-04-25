@@ -35,7 +35,7 @@
 
 // Display resolution
 const unsigned int EPD_3IN7_WIDTH = 280;
-const unsigned int EPD_3IN7_HEIGHT = 480; 
+const unsigned int EPD_3IN7_HEIGHT = 480;
 
 void EPD_3IN7_4Gray_Clear(void);
 void EPD_3IN7_4Gray_Init(void);

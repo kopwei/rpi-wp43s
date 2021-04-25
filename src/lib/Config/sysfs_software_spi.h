@@ -76,7 +76,7 @@ typedef enum {
 /**
  * Define SPI order
 **/
-typedef enum {    
+typedef enum {
     SOFTWARE_SPI_LSBFIRST,
     SOFTWARE_SPI_MSBFIRST,
 } SOFTWARE_SPI_Order;
@@ -90,7 +90,7 @@ typedef struct SPIStruct {
     uint16_t MOSI_PIN;
     uint16_t MISO_PIN;
     uint16_t CS_PIN;
-    
+
     //Mode
     SOFTWARE_SPI_Mode Mode;
     uint8_t CPOL;

@@ -1,6 +1,6 @@
 /*************************************************
 *                                                *
-*  EasyBMP Cross-Platform Windows Bitmap Library * 
+*  EasyBMP Cross-Platform Windows Bitmap Library *
 *                                                *
 *  Author: Paul Macklin                          *
 *   email: macklin01@users.sourceforge.net       *
@@ -12,7 +12,7 @@
 *       version: 1.06                            *
 *                                                *
 *   License: BSD (revised/modified)              *
-* Copyright: 2005-6 by the EasyBMP Project       * 
+* Copyright: 2005-6 by the EasyBMP Project       *
 *                                                *
 * description: Defines basic data structures for *
 *              the BMP class                     *
@@ -63,8 +63,8 @@ inline ebmpDWORD FlipDWORD(ebmpDWORD in)
 }
 
 // it's easier to use a struct than a class
-// because we can read/write all four of the bytes 
-// at once (as we can count on them being continuous 
+// because we can read/write all four of the bytes
+// at once (as we can count on them being continuous
 // in memory
 
 typedef struct RGBApixel

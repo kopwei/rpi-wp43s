@@ -137,7 +137,7 @@ XDeviceInfo* CKeyboardHandler::find_device_info(const char *name, Bool only_exte
 #if HAVE_XI2
 XIDeviceInfo* CKeyboardHandler::xi2_find_device_info(char *name)
 {
-    
+
     Bool is_id = True;
     for(unsigned int j = 0; j < strlen(name); j++) {
         if (!isdigit(name[j])) {
@@ -298,7 +298,7 @@ void CKeyboardHandler::_loop_until_terminate()
                 cout << "a[" << motion->first_axis + loop << "]=" << motion->axis_data[loop];
             }
             cout << endl;
-        } 
+        }
         else if ((Event.type == button_press_type) ||
             (Event.type == button_release_type))
         {
@@ -315,7 +315,7 @@ void CKeyboardHandler::_loop_until_terminate()
             cout << endl;
         }
         else if ((Event.type == key_press_type) ||
-            (Event.type == key_release_type)) 
+            (Event.type == key_release_type))
         {
             KeyboardEvent kEvent = (Event.type == key_release_type) ? KeyReleaseEvent : KeyPressEvent;
             NotifyObservers(kEvent);
@@ -328,7 +328,7 @@ void CKeyboardHandler::_loop_until_terminate()
                 cout << "a[" << key->first_axis + loop << "]= " << key->axis_data[loop];
             }
             cout << endl;
-        } 
+        }
         else if ((Event.type == proximity_out_type) ||
             (Event.type == proximity_in_type))
         {

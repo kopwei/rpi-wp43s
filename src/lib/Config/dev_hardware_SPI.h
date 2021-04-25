@@ -86,11 +86,11 @@ typedef struct SPIStruct {
     uint16_t SCLK_PIN;
     uint16_t MOSI_PIN;
     uint16_t MISO_PIN;
-    
+
     uint16_t CS0_PIN;
     uint16_t CS1_PIN;
-    
-    
+
+
     uint32_t speed;
     uint16_t mode;
     uint16_t delay;

@@ -8,7 +8,7 @@
 *----------------
 * |	This version:   V2.2
 * | Date        :   2020-07-08
-* | Info        :   
+* | Info        :
 * -----------------------------------------------------------------------------
 * V2.2(2020-07-08):
 * 1.Add GUI_ReadBmp_RGB_7Color()
@@ -17,8 +17,8 @@
 * V2.0(2018-11-12):
 * 1.Change file name: GUI_BMP.h -> GUI_BMPfile.h
 * 2.fix: GUI_ReadBmp()
-*   Now Xstart and Xstart can control the position of the picture normally, 
-*   and support the display of images of any size. If it is larger than 
+*   Now Xstart and Xstart can control the position of the picture normally,
+*   and support the display of images of any size. If it is larger than
 *   the actual display range, it will not be displayed.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy

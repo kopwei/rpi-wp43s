@@ -1,6 +1,6 @@
 /*************************************************
 *                                                *
-*  EasyBMP Cross-Platform Windows Bitmap Library * 
+*  EasyBMP Cross-Platform Windows Bitmap Library *
 *                                                *
 *  Author: Paul Macklin                          *
 *   email: macklin01@users.sourceforge.net       *
@@ -12,7 +12,7 @@
 *       version: 1.06                            *
 *                                                *
 *   License: BSD (revised/modified)              *
-* Copyright: 2005-6 by the EasyBMP Project       * 
+* Copyright: 2005-6 by the EasyBMP Project       *
 *                                                *
 * description: Defines BMP class                 *
 *                                                *

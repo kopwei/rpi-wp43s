@@ -70,10 +70,10 @@
 
 #ifdef JETSON
     #ifdef USE_DEV_LIB
-        #include "sysfs_gpio.h"    
+        #include "sysfs_gpio.h"
         #include "sysfs_software_spi.h"
     #elif USE_HARDWARE_LIB
-        
+
     #endif
 
 #endif

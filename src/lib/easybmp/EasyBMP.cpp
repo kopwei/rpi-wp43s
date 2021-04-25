@@ -6,7 +6,7 @@
 *   email: macklin01@users.sourceforge.net       *
 * support: http://easybmp.sourceforge.net        *
 *                                                *
-*          file: EasyBMP.cpp                     * 
+*          file: EasyBMP.cpp                     *
 *    date added: 03-31-2006                      *
 * date modified: 12-01-2006                      *
 *       version: 1.06                            *
@@ -300,7 +300,7 @@ BMP::BMP(BMP & Input)
 
     SetBitDepth(Input.TellBitDepth());
 
-   	// set the correct pixel size 
+   	// set the correct pixel size
 
     SetSize(Input.TellWidth(), Input.TellHeight());
 
@@ -319,7 +319,7 @@ BMP::BMP(BMP & Input)
         }
     }
 
-   	// get all the pixels 
+   	// get all the pixels
 
     for (int j = 0; j < Height; j++)
     {
@@ -565,7 +565,7 @@ bool BMP::WriteToFile(const char *FileName)
         dPaletteSize = IntPow(2, BitDepth) *4.0;
     }
 
-   	// leave some room for 16-bit masks 
+   	// leave some room for 16-bit masks
     if (BitDepth == 16)
     {
         dPaletteSize = 3 * 4;
@@ -573,7 +573,7 @@ bool BMP::WriteToFile(const char *FileName)
 
     double dTotalFileSize = 14 + 40 + dPaletteSize + dTotalPixelBytes;
 
-   	// write the file header 
+   	// write the file header
 
     BMFH bmfh;
     bmfh.bfSize = (ebmpDWORD) dTotalFileSize;
@@ -592,7 +592,7 @@ bool BMP::WriteToFile(const char *FileName)
     fwrite((char*) &(bmfh.bfReserved2), sizeof(ebmpWORD), 1, fp);
     fwrite((char*) &(bmfh.bfOffBits), sizeof(ebmpDWORD), 1, fp);
 
-   	// write the info header 
+   	// write the info header
 
     BMIH bmih;
     bmih.biSize = 40;
@@ -646,12 +646,12 @@ bool BMP::WriteToFile(const char *FileName)
     fwrite((char*) &(bmih.biClrUsed), sizeof(ebmpDWORD), 1, fp);
     fwrite((char*) &(bmih.biClrImportant), sizeof(ebmpDWORD), 1, fp);
 
-   	// write the palette 
+   	// write the palette
     if (BitDepth == 1 || BitDepth == 4 || BitDepth == 8)
     {
         int NumberOfColors = IntPow(2, BitDepth);
 
-       	// if there is no palette, create one 
+       	// if there is no palette, create one
         if (!Colors)
         {
             if (!Colors)
@@ -669,7 +669,7 @@ bool BMP::WriteToFile(const char *FileName)
         }
     }
 
-   	// write the pixels 
+   	// write the pixels
     int i, j;
     if (BitDepth != 16)
     {
@@ -854,7 +854,7 @@ bool BMP::ReadFromFile(const char *FileName)
         return false;
     }
 
-   	// read the file header 
+   	// read the file header
 
     BMFH bmfh;
     bool NotCorrupted = true;
@@ -953,7 +953,7 @@ bool BMP::ReadFromFile(const char *FileName)
         return false;
     }
 
-   	// if bmih.biCompression > 3, then something strange is going on 
+   	// if bmih.biCompression > 3, then something strange is going on
    	// it's probably an OS2 bitmap file.
 
     if (bmih.biCompression > 3)
@@ -1043,7 +1043,7 @@ bool BMP::ReadFromFile(const char *FileName)
 
     if (BitDepth < 16)
     {
-       	// determine the number of colors specified in the 
+       	// determine the number of colors specified in the
        	// color table
 
         int NumberOfColorsToRead = ((int) bmfh.bfOffBits - 54) / 4;
@@ -1111,7 +1111,7 @@ bool BMP::ReadFromFile(const char *FileName)
         delete[] TempSkipBYTE;
     }
 
-   	// This code reads 1, 4, 8, 24, and 32-bpp files 
+   	// This code reads 1, 4, 8, 24, and 32-bpp files
    	// with a more-efficient buffered technique.
 
     int i, j;
@@ -1198,7 +1198,7 @@ bool BMP::ReadFromFile(const char *FileName)
         ebmpWORD GreenMask = 992;	// bits 7-11
         ebmpWORD RedMask = 31744;	// bits 2-6
 
-       	// read the bit fields, if necessary, to 
+       	// read the bit fields, if necessary, to
        	// override the default 5-5-5 mask
 
         if (bmih.biCompression != 0)
@@ -1405,7 +1405,7 @@ bool BMP::CreateStandardColorTable(void)
         int i = 0;
         int j, k, ell;
 
-       	// do an easy loop, which works for all but colors 
+       	// do an easy loop, which works for all but colors
        	// 0 to 9 and 246 to 255
         for (ell = 0; ell < 4; ell++)
         {
@@ -1422,7 +1422,7 @@ bool BMP::CreateStandardColorTable(void)
             }
         }
 
-       	// now redo the first 8 colors  
+       	// now redo the first 8 colors
         i = 0;
         for (ell = 0; ell < 2; ell++)
         {
@@ -1452,7 +1452,7 @@ bool BMP::CreateStandardColorTable(void)
         Colors[i].Green = 202;
         Colors[i].Blue = 240;
 
-       	// overwrite colors 246 to 255 
+       	// overwrite colors 246 to 255
         i = 246;
         Colors[i].Red = 255;
         Colors[i].Green = 251;
@@ -1617,7 +1617,7 @@ BMIH GetBMIH(const char *szFileNameIn)
         SafeFread((char*) &TempBYTE, sizeof(ebmpBYTE), 1, fp);
     }
 
-   	// read the bmih 
+   	// read the bmih
 
     SafeFread((char*) &(bmih.biSize), sizeof(ebmpDWORD), 1, fp);
     SafeFread((char*) &(bmih.biWidth), sizeof(ebmpDWORD), 1, fp);

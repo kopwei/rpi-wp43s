@@ -51,7 +51,7 @@ int SYSFS_GPIO_Export(int Pin)
 
     len = snprintf(buffer, NUM_MAXBUF, "%d", Pin);
     write(fd, buffer, len);
-    
+
     SYSFS_GPIO_Debug( "Export: Pin%d\r\n", Pin);
 
     close(fd);
@@ -72,9 +72,9 @@ int SYSFS_GPIO_Unexport(int Pin)
 
     len = snprintf(buffer, NUM_MAXBUF, "%d", Pin);
     write(fd, buffer, len);
-    
+
     SYSFS_GPIO_Debug( "Unexport: Pin%d\r\n", Pin);
-    
+
     close(fd);
     return 0;
 }
@@ -84,7 +84,7 @@ int SYSFS_GPIO_Direction(int Pin, int Dir)
     const char dir_str[]  = "in\0out";
     char path[DIR_MAXSIZ];
     int fd;
-    
+
     snprintf(path, DIR_MAXSIZ, "/sys/class/gpio/gpio%d/direction", Pin);
     fd = open(path, O_WRONLY);
     if (fd < 0) {
@@ -102,7 +102,7 @@ int SYSFS_GPIO_Direction(int Pin, int Dir)
     }else{
         SYSFS_GPIO_Debug("Pin%d:Output\r\n", Pin);
     }
-    
+
     close(fd);
     return 0;
 }
@@ -112,7 +112,7 @@ int SYSFS_GPIO_Read(int Pin)
     char path[DIR_MAXSIZ];
     char value_str[3];
     int fd;
-    
+
     snprintf(path, DIR_MAXSIZ, "/sys/class/gpio/gpio%d/value", Pin);
     fd = open(path, O_RDONLY);
     if (fd < 0) {
@@ -134,7 +134,7 @@ int SYSFS_GPIO_Write(int Pin, int value)
     const char s_values_str[] = "01";
     char path[DIR_MAXSIZ];
     int fd;
-    
+
     snprintf(path, DIR_MAXSIZ, "/sys/class/gpio/gpio%d/value", Pin);
     fd = open(path, O_WRONLY);
     if (fd < 0) {
@@ -146,7 +146,7 @@ int SYSFS_GPIO_Write(int Pin, int value)
         SYSFS_GPIO_Debug( "failed to write value!\n");
         return -1;
     }
-    
+
     close(fd);
     return 0;
 }

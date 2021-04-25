@@ -162,9 +162,9 @@ uint8_t SYSFS_software_spi_transfer(uint8_t value)
 
     // printf("value = %d\r\n", value);
     uint8_t Read_miso = 0;
-    
+
     SYSFS_GPIO_Write(software_spi.SCLK_PIN, 0);
-    for (uint8_t bit = 0; bit < 8; bit++) {        
+    for (uint8_t bit = 0; bit < 8; bit++) {
         SYSFS_GPIO_Write(software_spi.SCLK_PIN, 0);
         // for(int j=delay; j > 0; j--);// DELAY
 

@@ -26,7 +26,7 @@ public:
     int StartMonitorEvent(const std::string keyboard_name_or_id);
     void RegisterObserver(CKeyboardObserver* observer);
     void RegisterExitKeyEvent();
-    
+
     XDeviceInfo* find_device_info(const char *name, Bool only_extended);
     int xinput_version();
     #if HAVE_XI2

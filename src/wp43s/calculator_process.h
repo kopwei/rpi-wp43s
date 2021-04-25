@@ -18,5 +18,4 @@ private:
     int iprocessId;
     std::string calculatorBinName;
 };
-
 #endif

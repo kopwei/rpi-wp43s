@@ -4,7 +4,7 @@
 #include "GUI_BMPfile.h"
 #include "EasyBMP.h"
 #include <string>
-#include <experimental/filesystem>  
+#include <experimental/filesystem>
 #include "display.h"
 #include "calculator_process.h"
 #include "pic_compare.h"

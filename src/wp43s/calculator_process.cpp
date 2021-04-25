@@ -38,7 +38,7 @@ const int CCaculatorProcess::StartProcess()
     {
        // pid != 0: this is the parent process (i.e. our process)
        waitpid(pid, &status, 0); // wait for the child to exit
-    } 
+    }
     else
     {
         execl(calculatorBinName.c_str(), calculatorBinName.c_str(), NULL);
