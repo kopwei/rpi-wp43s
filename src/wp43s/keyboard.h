@@ -24,8 +24,9 @@ public:
 
     int StartMonitorEvent();
     void RegisterObserver(CKeyboardObserver* observer);
+    void RegisterExitKeyEvent();
     
-    XDeviceInfo* find_device_info(char *name, Bool only_extended);
+    XDeviceInfo* find_device_info(const char *name, Bool only_extended);
     int xinput_version();
     #if HAVE_XI2
     XIDeviceInfo* xi2_find_device_info(char *name);
@@ -34,10 +35,10 @@ private:
     CKeyboardHandler(const CKeyboardHandler&);
     CKeyboardHandler& operator=(const CKeyboardHandler&);
     void NotifyObservers(const KeyboardEvent Event);
-    int LoopEventUntilTerminate(char* deviceId);
+    int LoopEventUntilTerminate(const char* deviceId);
     void _loop_until_terminate();
     static int register_events(Display *display,
-        XDeviceInfo *info, char *dev_name, Bool handle_proximity);
+        XDeviceInfo *info, const char *dev_name, Bool handle_proximity);
 
     Display* display;
     std::vector<CKeyboardObserver*> observers;

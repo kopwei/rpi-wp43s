@@ -13,7 +13,7 @@ using namespace std;
 int xi_opcode;
 
 // Change the value here. Run command "xinput" to find actual number
-const char* KEYBOARD_DEVICE_ID = "6";
+const char* KEYBOARD_DEVICE_NAME = "LingYao ShangHai Thumb Keyboard";
 
 const int INVALID_EVENT_TYPE = -1;
 
@@ -51,15 +51,13 @@ int CKeyboardHandler::StartMonitorEvent()
         cout << INAME << " extension not available" << endl;
         exit(1);
     }
-    char deviceId[10];
-    sprintf(deviceId, KEYBOARD_DEVICE_ID);
-    LoopEventUntilTerminate(deviceId);
+    LoopEventUntilTerminate(KEYBOARD_DEVICE_NAME);
     XSync(display, False);
     XCloseDisplay(display);
     return 0;
 }
 
-int CKeyboardHandler::LoopEventUntilTerminate(char* deviceId)
+int CKeyboardHandler::LoopEventUntilTerminate(const char* deviceId)
 {
     XDeviceInfo *info;
 
@@ -86,7 +84,7 @@ int CKeyboardHandler::LoopEventUntilTerminate(char* deviceId)
     return 0;
 }
 
-XDeviceInfo* CKeyboardHandler::find_device_info(char *name, Bool only_extended)
+XDeviceInfo* CKeyboardHandler::find_device_info(const char *name, Bool only_extended)
 {
     Bool is_id = True;
     int len = strlen(name);
@@ -106,9 +104,11 @@ XDeviceInfo* CKeyboardHandler::find_device_info(char *name, Bool only_extended)
     int num_devices;
     XDeviceInfo* devices = XListInputDevices(display, &num_devices);
     XDeviceInfo* found = NULL;
+    Atom atomTypeKeyboard = XInternAtom(display, XI_KEYBOARD, True);
     for(int loop = 0; loop < num_devices; loop++)
     {
         if ((!only_extended || (devices[loop].use >= IsXExtensionDevice)) &&
+            (atomTypeKeyboard == devices[loop].type) &&
             ((!is_id && strcmp(devices[loop].name, name) == 0) ||
             (is_id && devices[loop].id == id)))
         {
@@ -183,7 +183,8 @@ int CKeyboardHandler::xinput_version()
     return vers;
 }
 
-int CKeyboardHandler::register_events(Display *display, XDeviceInfo *info, char *dev_name, Bool handle_proximity)
+int CKeyboardHandler::register_events(
+    Display *display, XDeviceInfo *info, const char *dev_name, Bool handle_proximity)
 {
     int            number = 0;    /* number of events registered */
     XEventClass        event_list[7];
@@ -273,7 +274,7 @@ void CKeyboardHandler::_loop_until_terminate()
             int    loop;
             XDeviceButtonEvent *button = (XDeviceButtonEvent *) &Event;
 
-            cout << "button " << ((Event.type == button_release_type) ? "release" : "press  ") <<
+            cout << "button " << ((Event.type == button_release_type) ? "release " : "press  ") <<
                 button->button;
 
             for(loop=0; loop<button->axes_count; loop++)

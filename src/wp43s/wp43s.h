@@ -10,7 +10,8 @@ public:
     ~CRPiCW43sCalculator();
     void Start();
 private:
-
+    static void* StartMonitorKeyboard(void*);
+    static void* StartMonitorCalcProcess(void*);
     CEPaperDisplay* pDisplay;
 };
 
