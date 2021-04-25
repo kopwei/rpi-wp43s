@@ -14,7 +14,7 @@ class CKeyboardObserver
 {
 public:
     virtual void HandleKeyboardEvent(const KeyboardEvent event) = 0;
-    virtual ~CKeyboardObserver() = 0;
+    virtual ~CKeyboardObserver(){}
 };
 
 #endif

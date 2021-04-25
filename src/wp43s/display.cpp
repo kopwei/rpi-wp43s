@@ -5,6 +5,7 @@
 #include "EasyBMP.h"
 #include <string>
 #include "display.h"
+#include "calculator_process.h"
 
 using namespace std;
 
@@ -52,8 +53,11 @@ CEPaperDisplay::~CEPaperDisplay()
         delete this->bitConvBmp;
     }
     this->bitConvBmp = nullptr;
-    free(canvas);
-    EPD_3IN7_Sleep();
+    if(canvas)
+    {
+        free(canvas);
+    }
+    canvas = NULL;
 }
 
 void CEPaperDisplay::InitDisplay()
@@ -102,8 +106,17 @@ void CEPaperDisplay::Convert8bitGreyTo1bit()
 
 void CEPaperDisplay::HandleKeyboardEvent(const KeyboardEvent event)
 {
-    if(event == KeyReleaseEvent)
+    if (!CCaculatorProcess::IsCalculatorProcessRunning())
+    {
+        return;
+    }
+    if(KeyReleaseEvent == event)
     {
         GrabScreenAndShowFull();
     }
+}
+
+void CEPaperDisplay::Sleep()
+{
+    EPD_3IN7_Sleep();
 }

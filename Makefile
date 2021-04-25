@@ -66,7 +66,7 @@ RPI_DEV:
 	$(CXX) $(CXXFLAGS) $(DEBUG_RPI) -c  $(DIR_Config)/DEV_Config.cpp -o $(DIR_OBJ)/DEV_Config.o $(LIB_RPI) $(DEBUG)
 
 clean :
-	rm -f $(DIR_OUTPUT/*.*)
-	rm -f $(DIR_OBJ/*.*)
-	rm -f $(TARGET) 
+	rm -f $(DIR_OUTPUT)/*.*
+	rm -f $(DIR_OBJ)/*.o
+	rm -f $(TARGET)
 

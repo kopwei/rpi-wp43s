@@ -7,13 +7,11 @@
 #include "keyboard.h"
 #include <ctype.h>
 #include <string.h>
+#include "calculator_process.h"
 
 using namespace std;
 
 int xi_opcode;
-
-// Change the value here. Run command "xinput" to find actual number
-const char* KEYBOARD_DEVICE_NAME = "LingYao ShangHai Thumb Keyboard";
 
 const int INVALID_EVENT_TYPE = -1;
 
@@ -37,7 +35,7 @@ CKeyboardHandler::CKeyboardHandler()
     observers = vector<CKeyboardObserver*>();
 }
 
-int CKeyboardHandler::StartMonitorEvent()
+int CKeyboardHandler::StartMonitorEvent(const string keyboard_name_or_id)
 {
     int event, error;
     if(!XQueryExtension(display, "XInputExtension", &xi_opcode, &event, &error))
@@ -51,10 +49,17 @@ int CKeyboardHandler::StartMonitorEvent()
         cout << INAME << " extension not available" << endl;
         exit(1);
     }
-    LoopEventUntilTerminate(KEYBOARD_DEVICE_NAME);
+    LoopEventUntilTerminate(keyboard_name_or_id.c_str());
     XSync(display, False);
     XCloseDisplay(display);
     return 0;
+}
+
+bool CKeyboardHandler::NeedTerminate()
+{
+    bool isRunning =CCaculatorProcess::IsCalculatorProcessRunning();
+    cout << "Calculator running: " << isRunning << endl;
+    return !isRunning;
 }
 
 int CKeyboardHandler::LoopEventUntilTerminate(const char* deviceId)
@@ -132,7 +137,34 @@ XDeviceInfo* CKeyboardHandler::find_device_info(const char *name, Bool only_exte
 #if HAVE_XI2
 XIDeviceInfo* CKeyboardHandler::xi2_find_device_info(char *name)
 {
+    
+    Bool is_id = True;
+    for(unsigned int j = 0; j < strlen(name); j++) {
+        if (!isdigit(name[j])) {
+            is_id = False;
+            break;
+        }
+    }
+    int id = -1;
+    if (is_id) {
+	  id = atoi(name);
+    }
 
+    int ndevices;
+    XIDeviceInfo info = XIQueryDevice(display, XIAllDevices, &ndevices);
+    for(int i = 0; i < ndevices; i++)
+    {
+        if ((is_id && info[i].deviceid == id) ||
+                (!is_id && strcmp(info[i].name, name) == 0))
+        {
+			XIDeviceInfoX* ret = new XIDeviceInfoX(info[i]);
+			XIFreeDeviceInfo(info);
+			return ret;
+        }
+    }
+
+    XIFreeDeviceInfo(info);
+    return NULL;
 }
 #endif
 
@@ -250,8 +282,7 @@ void CKeyboardHandler::_loop_until_terminate()
     XEvent        Event;
 
     setvbuf(stdout, NULL, _IOLBF, 0);
-
-    while(true)
+    do
     {
         XNextEvent(display, &Event);
 
@@ -290,7 +321,7 @@ void CKeyboardHandler::_loop_until_terminate()
             NotifyObservers(kEvent);
             XDeviceKeyEvent *key = (XDeviceKeyEvent *) &Event;
 
-            cout << "key " << ((Event.type == key_release_type) ? "release" : "press  ") << key->keycode;
+            cout << "key " << ((Event.type == key_release_type) ? "release " : "press  ") << key->keycode;
 
             for(int loop=0; loop<key->axes_count; loop++)
             {
@@ -316,7 +347,7 @@ void CKeyboardHandler::_loop_until_terminate()
         {
             cout << "what's that " << Event.type << endl;
         }
-    }
+    } while(!this->NeedTerminate());
 }
 
 void CKeyboardHandler::RegisterObserver(CKeyboardObserver* observer)

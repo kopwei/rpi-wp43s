@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
+#include <string>
 #include "observer.h"
 
 extern int xi_opcode; /* xinput extension op code */
@@ -22,7 +23,7 @@ public:
     CKeyboardHandler();
     ~CKeyboardHandler(){}
 
-    int StartMonitorEvent();
+    int StartMonitorEvent(const std::string keyboard_name_or_id);
     void RegisterObserver(CKeyboardObserver* observer);
     void RegisterExitKeyEvent();
     
@@ -37,10 +38,12 @@ private:
     void NotifyObservers(const KeyboardEvent Event);
     int LoopEventUntilTerminate(const char* deviceId);
     void _loop_until_terminate();
+    bool NeedTerminate();
     static int register_events(Display *display,
         XDeviceInfo *info, const char *dev_name, Bool handle_proximity);
 
     Display* display;
+    std::string keyboard_name;
     std::vector<CKeyboardObserver*> observers;
 
 };
