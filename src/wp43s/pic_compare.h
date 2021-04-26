@@ -10,6 +10,8 @@ struct DiffArea
     int Y_MIN;
     int X_MAX;
     int Y_MAX;
+
+    inline DiffArea():X_MIN(-1),X_MAX(-1),Y_MIN(-1),Y_MAX(-1){}
     inline bool Exists()
     {
         return (X_MIN != X_MAX) && (Y_MIN != Y_MAX);

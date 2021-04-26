@@ -125,7 +125,7 @@ UBYTE GUI_ReadBmp(const char *path, UWORD Xstart, UWORD Ystart)
     UBYTE color, temp;
     for(y = 0; y < bmpInfoHeader.biHeight; y++) {
         for(x = 0; x < bmpInfoHeader.biWidth; x++) {
-            if(x > Paint.Width || y > Paint.Height) {
+            if(Xstart + x > Paint.Width || Ystart + y > Paint.Height) {
                 break;
             }
             temp = Image[(x / 8) + (y * Image_Width_Byte)];

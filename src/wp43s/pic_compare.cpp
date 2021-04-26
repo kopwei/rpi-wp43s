@@ -11,7 +11,7 @@ bool ArePixelDiff(const RGBApixel& a, const RGBApixel& b)
 
 DiffArea CBMPComparator::GetDiffArea(std::string base_img_path, std::string new_img_path)
 {
-    DiffArea area{-1,-1,-1,-1};
+    DiffArea area;
     BMP base_bmp, new_bmp;
     bool load_result = base_bmp.ReadFromFile(base_img_path.c_str());
     if(!load_result)
@@ -66,7 +66,6 @@ DiffArea CBMPComparator::GetDiffArea(std::string base_img_path, std::string new_
             }
         }
     }
-    area.Print();
     if (area.X_MIN > 0)
     {
         area.X_MIN = area.X_MIN - area.X_MIN % 8;
@@ -83,6 +82,7 @@ DiffArea CBMPComparator::GetDiffArea(std::string base_img_path, std::string new_
     {
         area.Y_MAX = area.Y_MAX + 8 - area.Y_MAX % 8;
     }
+    area.Print();
     return area;
 }
 

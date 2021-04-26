@@ -97,12 +97,12 @@ void CEPaperDisplay::GrabScreenAndShowDiff()
     if(diff_area.Exists())
     {
         CBMPComparator::SaveDiffAreaToFile(tmp_path, diff_area, diff_pic_path);
-        Paint_NewImage(canvas, diff_area.Height(), diff_area.Width(), 0, WHITE);
+        Paint_NewImage(canvas, diff_area.Width(), diff_area.Height(), 0, WHITE);
         Paint_SelectImage(canvas);
         Paint_SetScale(2);
         Paint_Clear(WHITE);
-        GUI_ReadBmp(diff_pic_path.c_str(), diff_area.Height(), diff_area.Width());
-        EPD_3IN7_1Gray_Display_Part(canvas, diff_area.Y_MIN, diff_area.X_MIN, diff_area.Y_MAX, diff_area.X_MAX);
+        GUI_ReadBmp(diff_pic_path.c_str(), diff_area.X_MIN, diff_area.Y_MIN);
+        EPD_3IN7_1Gray_Display_Part(canvas, diff_area.X_MIN, diff_area.Y_MIN, diff_area.X_MAX, diff_area.Y_MAX);
     }
 }
 
