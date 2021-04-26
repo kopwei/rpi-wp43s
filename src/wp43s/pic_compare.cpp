@@ -75,6 +75,14 @@ DiffArea CBMPComparator::GetDiffArea(std::string base_img_path, std::string new_
     {
         area.X_MAX = area.X_MAX + 8 - area.X_MAX % 8;
     }
+    if (area.Y_MIN > 0)
+    {
+        area.Y_MIN = area.Y_MIN - area.Y_MIN % 8;
+    }
+    if (area.Y_MAX > 0)
+    {
+        area.Y_MAX = area.Y_MAX + 8 - area.Y_MAX % 8;
+    }
     return area;
 }
 

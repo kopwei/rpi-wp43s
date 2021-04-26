@@ -14,8 +14,8 @@ using namespace std;
 
 const uint LCD_SCREEN_WIDTH = 800;
 const uint LCD_SCREEN_HEIGHT = 480;
-const uint EPAPER_SCREEN_WIDTH = EPD_3IN7_HEIGHT;
-const uint EPAPER_SCREEN_HEIGHT = EPD_3IN7_WIDTH;
+const uint EPAPER_SCREEN_WIDTH = EPD_3IN7_WIDTH;
+const uint EPAPER_SCREEN_HEIGHT = EPD_3IN7_HEIGHT;
 
 const string tmp_path("/tmp/tmp_dump.bmp");
 const string old_dump_path("/tmp/old_tmp_dump.bmp");
@@ -81,7 +81,7 @@ void CEPaperDisplay::GrabScreenAndShowFull()
 {
     CaptureScreenInGray();
     Convert8bitGreyTo1bit();
-    Paint_NewImage(canvas, EPD_3IN7_WIDTH, EPD_3IN7_HEIGHT, 270, WHITE);
+    Paint_NewImage(canvas, EPAPER_SCREEN_WIDTH, EPAPER_SCREEN_HEIGHT, 0, WHITE);
     Paint_SetScale(2);
     Paint_SelectImage(canvas);
     Paint_Clear(WHITE);
@@ -97,10 +97,12 @@ void CEPaperDisplay::GrabScreenAndShowDiff()
     if(diff_area.Exists())
     {
         CBMPComparator::SaveDiffAreaToFile(tmp_path, diff_area, diff_pic_path);
+        Paint_NewImage(canvas, diff_area.Height(), diff_area.Width(), 0, WHITE);
         Paint_SelectImage(canvas);
+        Paint_SetScale(2);
         Paint_Clear(WHITE);
-        GUI_ReadBmp(tmp_path.c_str(), diff_area.X_MIN, diff_area.Y_MIN);
-        EPD_3IN7_1Gray_Display_Part(canvas, diff_area.X_MIN, diff_area.Y_MIN, diff_area.X_MAX, diff_area.Y_MAX);
+        GUI_ReadBmp(diff_pic_path.c_str(), diff_area.Height(), diff_area.Width());
+        EPD_3IN7_1Gray_Display_Part(canvas, diff_area.Y_MIN, diff_area.X_MIN, diff_area.Y_MAX, diff_area.X_MAX);
     }
 }
 
@@ -109,10 +111,10 @@ void CEPaperDisplay::CaptureScreenInGray()
     MoveExistingScreeshotIfExists();
     cv::Mat original_colorMat, scaled_colorMat, greyMat;
     capturor->CaptureToImg(original_colorMat);
-    cv::Size newSize(EPAPER_SCREEN_WIDTH, EPAPER_SCREEN_HEIGHT);
+    cv::Size newSize(EPAPER_SCREEN_HEIGHT, EPAPER_SCREEN_WIDTH);
     cv::resize(original_colorMat, scaled_colorMat, newSize, 0, 0);
     cv::cvtColor(scaled_colorMat, greyMat, cv::COLOR_RGBA2GRAY);
-    cv::rotate(greyMat, greyMat, cv::ROTATE_180);
+    cv::rotate(greyMat, greyMat, cv::ROTATE_90_CLOCKWISE);
     cv::imwrite(tmp_path, greyMat);
 }
 
@@ -139,13 +141,15 @@ void CEPaperDisplay::HandleKeyboardEvent(const KeyboardEvent event)
     }
     if(KeyReleaseEvent == event)
     {
+        //GrabScreenAndShowDiff();
         GrabScreenAndShowFull();
-        //# Debug purpose
+        /*
         DiffArea diff_area = CBMPComparator::GetDiffArea(old_dump_path.c_str(), tmp_path.c_str());
         if(diff_area.Exists())
         {
             CBMPComparator::SaveDiffAreaToFile(tmp_path, diff_area, diff_pic_path);
         }
+        */
     }
 }
 

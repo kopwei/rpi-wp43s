@@ -19,6 +19,14 @@ struct DiffArea
         std::cout << "Debug: diff area xmin: "<< X_MIN << ", xmax: " << X_MAX <<
             ", ymin: "<< Y_MIN << ", ymax: " << Y_MAX << std::endl;
     }
+    inline int Width()
+    {
+        return X_MAX - X_MIN;
+    }
+    inline int Height()
+    {
+        return Y_MAX - Y_MIN;
+    }
 };
 
 // This class compares 2 bmp files with same size, but
