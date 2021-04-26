@@ -21,5 +21,6 @@ int main(int argc, char *argv[])
     signal(SIGINT, Handler);
     CRPiCW43sCalculator calculator;
     calculator.Start();
+    DEV_Module_Exit();
     return 0;
 }
