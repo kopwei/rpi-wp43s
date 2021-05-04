@@ -12,6 +12,8 @@ We are using following component:
 
 * Waveshare 3.7inch E-Paper Hat
 
+* SmartYao LY092 mini keyboard (48 keys with Cherry red switch)
+
 ## Install OpenCV4
 
 We need to install OpenCV4 lib. Followed instruction below:
