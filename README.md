@@ -27,6 +27,7 @@ We need to install OpenCV4 lib. Followed instruction below:
 ## Install necessary libraries
 
 ```bash
+# Before this step, you need to install all necessary software, e.g. wiringPi and bcm2835 lib which are necessary for Waveshare Eink display library
 apt-get install libxi-dev
 ```
 
